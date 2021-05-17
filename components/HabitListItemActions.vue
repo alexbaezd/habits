@@ -30,30 +30,34 @@
 </template>
 
 <script>
-import {mapActions } from 'vuex'
+import { mapActions } from "vuex";
 
 export default {
   data() {
     return {
       loader: null,
-      loading: false,
+      loading: false
     };
   },
   methods: {
-    ...mapActions('habits/',[
-      'completeHabit',
-      'deleteHabit'
-    ]),
+    ...mapActions("habits/", ["completeHabit", "deleteHabit"]),
     incrementHabit(habit) {
       this.loader = "loading";
-      this.completeHabit(habit)
-    },
+      this.completeHabit(habit);
+
+      if (this.habit.finished) {
+        this.$confetti.start({ defaultDropRate: 8 });
+        setTimeout(() => {
+          this.$confetti.stop();
+        }, 1500);
+      }
+    }
   },
   props: {
     habit: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   watch: {
     loader() {
@@ -63,8 +67,8 @@ export default {
       setTimeout(() => (this[l] = false), 500);
 
       this.loader = null;
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
@@ -74,7 +78,7 @@ export default {
 .close-button {
   box-shadow: none;
 }
-.plus{
+.plus {
   font-size: 35px !important  ;
 }
 </style>

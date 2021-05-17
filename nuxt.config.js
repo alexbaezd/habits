@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from "vuetify/es5/util/colors";
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
@@ -13,21 +13,17 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
-      /*  {
-        rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;700&display=swap"
-      } */
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [{ src: "@/plugins/vue-shortkey.js", mode: "client" }],
+  plugins: [
+    { src: "@/plugins/vue-shortkey.js", mode: "client" },
+    { src: "~/plugins/vue-confetti.js", mode: "client" }
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
