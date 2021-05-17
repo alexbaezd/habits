@@ -1,50 +1,58 @@
 <template>
-  <v-card-text>
-    <v-container>
-      <v-form
-        @submit.prevent="validate"
-        ref="form"
-        v-model="valid"
-        lazy-validation
+  <v-dialog v-if="dialog" v-model="dialog" persistent max-width="600px">
+    <v-card>
+      <v-card-title>
+        <span>Add a new habit</span>
+      </v-card-title>
 
-      >
-        <v-text-field
-          v-model="newHabitTitle"
-          :counter="20"
-          :rules="newHabitRules"
-          label="New Habit"
-          required
-          autofocus
-        ></v-text-field>
+      <v-card-text>
+        <v-container>
+          <v-form
+            @submit.prevent="validate"
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-text-field
+              v-model="newHabitTitle"
+              :counter="20"
+              :rules="newHabitRules"
+              label="New Habit"
+              required
+              autofocus
+            ></v-text-field>
 
-        <v-text-field
-          v-model.number="reps"
-          :rules="repsRules"
-          label="How many ?"
-          type="number"
-          required
-        ></v-text-field>
-        <!-- TODO: Add Color Picker -->
-        <v-btn
-          :disabled="!valid"
-          color="success"
-          class="mr-4"
-          @click="validate"
-          type="submit"
-        >
-          Add New Habit
-        </v-btn>
+            <v-text-field
+              v-model.number="reps"
+              :rules="repsRules"
+              label="How many ?"
+              type="number"
+              required
+            ></v-text-field>
+            <!-- TODO: Add Color Picker -->
+            <v-btn
+              :disabled="!valid"
+              color="success"
+              class="mr-4"
+              @click="validate"
+              type="submit"
+            >
+              Add New Habit
+            </v-btn>
 
-        <v-btn color="error" text class="mr-4" @click="reset">
-          Cancel
-        </v-btn>
-      </v-form>
-    </v-container>
-  </v-card-text>
+            <v-btn color="error" text class="mr-4" @click="reset">
+              Cancel
+            </v-btn>
+          </v-form>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
-import { mapGetters,mapActions } from 'vuex'
+import { v4 as uuidv4 } from "uuid";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data: () => ({
@@ -52,38 +60,38 @@ export default {
     valid: true,
     newHabitTitle: "",
     newHabitRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 20) || "Name must be less than 10 characters",
+      value => !!value || "Name is required",
+      value =>
+        (value && value.length <= 20) || "Name must be less than 10 characters"
     ],
     reps: "",
     repsRules: [
-      (v) => !!v || "Reps is required",
-      (v) => v > 2 || "Reps must be less than 2",
-    ],
+      value => !!value || "Reps is required",
+      value => value > 2 || "Reps must be less than 2"
+    ]
   }),
   mounted() {
     this.resetValidation();
   },
   methods: {
     ...mapActions({
-        toggleDialog:'toggleDialog',
-        setNewColor:'habits/setNewColor',
-        myNewHabit:'habits/addHabit',
+      toggleDialog: "toggleDialog",
+      setNewColor: "habits/setNewColor",
+      myNewHabit: "habits/addHabit"
     }),
     addNewHabit() {
       if (this.newHabit !== "") {
-
-        this.toggleDialog()
         this.setNewColor();
 
         if (this.reps > 0) {
           const newHabit = {
+            id: uuidv4(),
             title: this.newHabitTitle,
             reps: this.reps,
             initial: this.reps,
             complete: 0,
-            random: this.getColorRandom,
-            finished: false,
+            color: this.getColorRandom,
+            finished: false
           };
           this.myNewHabit(newHabit);
         }
@@ -95,24 +103,28 @@ export default {
     validate() {
       this.$refs.form.validate();
       this.addNewHabit();
+      setTimeout(() => {
+        this.toggleDialog();
+      }, 10);
     },
     reset() {
       this.$refs.form.reset();
-      this.toggleDialog()
+      this.toggleDialog();
     },
     resetValidation() {
       this.$refs.form.resetValidation();
-    },
+    }
   },
-  computed:{
+  computed: {
     ...mapGetters({
-      getColorRandom:'habits/getColor',
+      getColorRandom: "habits/getColor",
+      dialog: "isShowDialog"
     })
   }
 };
 </script>
 <style scoped>
-.v-text-field input{
+.v-text-field input {
   font-family: "IBM Plex Sans", sans-serif !important;
 }
 </style>

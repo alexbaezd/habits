@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-habits">
+  <section class="grid-habits">
     <v-card
       height="110"
       class="habit"
@@ -10,15 +10,12 @@
         borderLeft: `${
           habit.finished ? 'none' : '5px solid #F5F5F5 !important'
         }`,
-        background: `${habit.finished ? '#00897B' : habit.random}`,
+        background: `${habit.finished ? '#00897B' : habit.color}`
       }"
-
     >
-      <HabitListItem
-        :habit="habit"
-      />
+      <HabitListItem :habit="habit" />
     </v-card>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -28,15 +25,16 @@ export default {
   props: {
     habits: {
       type: Array,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
 <style>
 .grid-habits {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-auto-rows: max-content;
   column-gap: 2rem;
   row-gap: 1rem;
   padding-top: 2rem;

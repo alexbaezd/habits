@@ -1,9 +1,10 @@
-
 <template>
   <v-container class="d-flex flex-column align-start">
     <transition name="slide-fade">
       <div v-if="isShow">
-        <blockquote class="blockquote text-quote font-weight-bold blue-grey--text text--darken-3">
+        <blockquote
+          class="blockquote text-quote font-weight-bold blue-grey--text text--darken-3"
+        >
           {{ currentQuote.text }}
         </blockquote>
         <p class="font-italic blue-grey--text text--darken-1 ml-8">
@@ -19,13 +20,13 @@ export default {
   props: {
     currentQuote: {
       type: Object,
-      required: true,
+      required: true
     },
     isShow: {
       type: Boolean,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
 
@@ -36,15 +37,22 @@ export default {
 .slide-fade-leave-active {
   transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to{
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }
-.v-application .blockquote{
+.v-application .blockquote {
   padding: 0;
-  width: 450px;
+  width: 80%;
 }
-.text-quote{
-  font-size:1.25rem;
+.text-quote {
+  font-size: 1.25rem;
+}
+@media screen and (max-width: 414px) {
+  .v-application .blockquote,
+  .v-application p {
+    display: none;
+  }
 }
 </style>
