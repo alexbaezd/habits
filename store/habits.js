@@ -1,72 +1,72 @@
 import { pallete } from "@/helper/colors";
 
-export const state = () =>({
-  habits:[],
-  colors:[],
-  colorHabit:''
-})
-
+export const state = () => ({
+  habits: [],
+  colors: [],
+  colorHabit: ""
+});
 
 export const mutations = {
-  configColors(state){
-    state.colors = pallete
+  configColors(state) {
+    state.colors = pallete;
   },
-  addHabit(state,newHabit){
-    state.habits.push(newHabit)
+  addHabit(state, newHabit) {
+    state.habits.push(newHabit);
   },
-  deleteHabit(state,habit){ // FIXME: habit change per ID
-    state.habits = state.habits.filter(myHabit => myHabit !== habit);
+  deleteHabit(state, habit) {
+    state.habits = state.habits.filter(myHabit => myHabit.id !== habit.id);
   },
-  completeHabit(state, habit){ // FIXME: habit change per ID
-    //TODO: search habit in array Habits[] and change data and new State
-    let habitChange = state.habits.filter(myHabit => myHabit.title === habit.title)[0];
-    //console.log("habitChange",habitChange);
-    if(habitChange.reps > 0){
-      habitChange.reps -= 1;
-      habitChange.complete += 1;
-    //console.log("changes :::");
-    //console.log(habitChange);
+  completeHabit(state, habit) {
+    const idHabit = habit.id;
+    const indexHabit = state.habits.findIndex(habit => habit.id === idHabit);
 
-      //TODO: show = false ?
+    const updateHabit = state.habits[indexHabit];
 
+    if (updateHabit.reps > 0) {
+      updateHabit.reps -= 1;
+      updateHabit.complete += 1;
     }
 
-    if(habitChange.reps === 0){
-        habitChange.finished = true;
+    if (updateHabit.reps === 0) {
+      updateHabit.finished = true;
     }
-    //state.habits =  [...state.habits,habitChange]
+
+    state.habits[indexHabit] = updateHabit;
   },
-  colorRandom(state){
+  colorRandom(state) {
     state.colorHabit =
       state.colors[Math.floor(Math.random() * state.colors.length)];
   }
-}
-
+};
 
 export const actions = {
+  colors({ commit }) {
+    commit("configColors");
+  },
+  addHabit({ commit }, payload) {
+    commit("addHabit", payload);
+  },
+  deleteHabit({ commit }, payload) {
+    commit("deleteHabit", payload);
+  },
+  completeHabit({ commit, dispatch }, payload) {
+    commit("completeHabit", payload);
 
-    colors({commit}) {
-      commit("configColors");
-    },
-    addHabit({commit}, payload) {
-      commit("addHabit", payload);
-    },
-    deleteHabit({commit}, payload) {
-      commit("deleteHabit", payload);
-    },
-    completeHabit({commit,dispatch},payload){
-      commit("completeHabit", payload);
-      //TODO: call action Global Store
-      dispatch("requestQuote", null, { root: true });
-    },
-    setNewColor({commit}){
-      commit("colorRandom");
-    }
-}
-
+    dispatch("requestQuote", null, { root: true });
+  },
+  setNewColor({ commit }) {
+    commit("colorRandom");
+  }
+};
 
 export const getters = {
-  allHabits: state => { return state.habits},
-  countHabits: state => { return state.habits.length},
-  getColor: state => { return state.colorHabit}
-}
+  allHabits: state => {
+    return state.habits;
+  },
+  countHabits: state => {
+    return state.habits.length;
+  },
+  getColor: state => {
+    return state.colorHabit;
+  }
+};

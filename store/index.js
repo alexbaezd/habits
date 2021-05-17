@@ -1,49 +1,56 @@
-import { quotes  as data} from "@/api/data";
+import { quotes as data } from "@/api/data";
 
 export const state = () => ({
-  quotes:[],
-  currentQuote:{},
-  isShowDialog:false,
-  isShowQuote:true
+  quotes: [],
+  currentQuote: {},
+  isShowDialog: false,
+  isShowQuote: true
 });
 
 export const mutations = {
-  //TODO: add Promise for call API
-  loadQuotes(state){
+  loadQuotes(state) {
     state.quotes = data;
   },
-  requestRandomQuote(state){
-    state.currentQuote = state.quotes[Math.floor(Math.random() * (state.quotes.length - 1))];
+  requestRandomQuote(state) {
+    state.currentQuote =
+      state.quotes[Math.floor(Math.random() * (state.quotes.length - 1))];
   },
-  showDialog(state){
-    state.isShowDialog = !state.isShowDialog
+  showDialog(state) {
+    state.isShowDialog = !state.isShowDialog;
   },
-  showQuote(state){
+  showQuote(state) {
     state.isShowQuote = !state.isShowQuote;
   }
 };
 
-// async - await
 export const actions = {
-  requestQuote(context){
-    context.commit('requestRandomQuote')
+  requestQuote(context) {
+    context.commit("requestRandomQuote");
   },
-  loadQuotes({commit}){
+  loadQuotes({ commit }) {
     setTimeout(() => {
-      commit('loadQuotes')
+      commit("loadQuotes");
     }, 1000);
   },
-  toggleDialog({commit}){
+  toggleDialog({ commit }) {
     commit("showDialog");
   },
-  toggleQuote({commit}){
+  toggleQuote({ commit }) {
     commit("showQuote");
   }
-}
+};
 
 export const getters = {
-  allQuotes: state => { return state.quotes },
-  randomQuote : state => { return state.currentQuote},
-  isShowDialog:state =>{ return state.isShowDialog},
-  isShowQuote:state =>{ return state.isShowQuote}
-}
+  allQuotes: state => {
+    return state.quotes;
+  },
+  randomQuote: state => {
+    return state.currentQuote;
+  },
+  isShowDialog: state => {
+    return state.isShowDialog;
+  },
+  isShowQuote: state => {
+    return state.isShowQuote;
+  }
+};
