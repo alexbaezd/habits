@@ -1,6 +1,37 @@
-# habits
+<h1 align="center">
+ Habits: Personal Project
+</h1>
+<div align="center">
+  <h3>
+    <a href="https://nuxt-habits.netlify.app">
+      Demo
+    </a>
+    <span> | </span>
+    <a href="http://alexbaez.dev/projects/habits">
+      Info
+    </a>
+  </h3>
+  <p>Te ayuda a registrar los hábitos que deseas que formen parte de tu vida.</p>
+</div>
 
-## Build Setup
+![Stories](./assets/habits.jpg "Personal Project")
+
+### Stack
+
+- Vue
+- Nuxt
+- Vuex
+- Vuetify
+
+### 🚀 Instructions for to operate project on your local machine
+
+1.  **Clone this repository.**
+
+    ```shell
+    git clone https://github.com/alexbaezd/habits.git
+    ```
+
+2.  **Build Setup**
 
 ```bash
 # install dependencies
